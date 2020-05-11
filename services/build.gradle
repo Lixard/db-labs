@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':data')
+    implementation 'org.springframework.boot:spring-boot-starter:2.2.7.RELEASE'
+}

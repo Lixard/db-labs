@@ -1,0 +1,27 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    group 'ru.student'
+    version '1.0'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+mainClassName = 'ru.student.ui.App'
+
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+    implementation project(':services')
+    implementation 'org.springframework.boot:spring-boot-starter:2.2.7.RELEASE'
+}
