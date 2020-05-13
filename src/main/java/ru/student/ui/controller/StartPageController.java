@@ -61,11 +61,16 @@ public class StartPageController {
         secondNameColumn.setCellValueFactory(new PropertyValueFactory<>("secondName"));
         lastNameColumn.setSortType(TableColumn.SortType.DESCENDING);
         update();
+        changeLineButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
+        deleteLineButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
 
-//        addLineButton.setOnAction(actionEvent -> {
-//            doctorsService.insert(new DoctorDto(firstName.getText(), lastName.getText(), secondName.getText()));
-//            update();
-//        });
+        addLineButton.setOnAction(actionEvent -> {
+            doctorsService.insert(new DoctorDto(firstName.getText(), lastName.getText(), secondName.getText()));
+            firstName.clear();
+            secondName.clear();
+            lastName.clear();
+            update();
+        });
     }
 
     public void update() {
