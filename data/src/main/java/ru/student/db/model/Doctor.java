@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Doctor {
-    private int id;
+    private int doctorId;
     private String firstName;
     private String lastName;
     private String secondName;

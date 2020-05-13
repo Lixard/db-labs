@@ -10,12 +10,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DoctorStruct {
 
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", source = "doctorId")
     @Mapping(target = "firstName", source = "firstName")
     @Mapping(target = "lastName", source = "lastName")
     @Mapping(target = "secondName", source = "secondName")
     DoctorDto toDto(Doctor doctor);
 
+    @Mapping(target = "doctorId", source = "id")
     Doctor fromDto(DoctorDto doctorDto);
 
     List<DoctorDto> toDto(List<Doctor> doctor);

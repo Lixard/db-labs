@@ -17,7 +17,7 @@ public interface DoctorsMapper {
     @Select(
             //language=PostgreSQL
             "SELECT doctor_id, last_name, first_name, second_name FROM doctors " +
-            "WHERE doctor_id = #{id}"
+            "WHERE doctor_id = #{doctorId}"
     )
     Doctor getById(@Param("id") int id);
 
@@ -27,7 +27,7 @@ public interface DoctorsMapper {
             "SET last_name = #{lastName}, " +
             "first_name = #{firstName}, " +
             "second_name = #{secondName} " +
-            "WHERE doctor_id = #{id}"
+            "WHERE doctor_id = #{doctorId}"
     )
     void update(Doctor doctor);
 

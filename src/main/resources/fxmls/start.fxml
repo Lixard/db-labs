@@ -15,21 +15,21 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="lastName" layoutX="14.0" layoutY="86.0" />
+                  <TextField fx:id="lastName" layoutX="13.0" layoutY="37.0" />
                   <TableView fx:id="table" layoutX="171.0" prefHeight="372.0" prefWidth="430.0">
                     <columns>
-                      <TableColumn fx:id="firstNameColumn" prefWidth="134.0" text="Имя" />
-                      <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="147.0" text="Фамилия" />
-                        <TableColumn fx:id="secondNameColumn" minWidth="9.0" prefWidth="148.0" text="Отчество" />
+                      <TableColumn fx:id="lastNameColumn" minWidth="0.0" prefWidth="146.0" text="Фамилия" />
+                      <TableColumn fx:id="firstNameColumn" minWidth="0.0" prefWidth="138.0" text="Имя" />
+                        <TableColumn fx:id="secondNameColumn" minWidth="9.0" prefWidth="145.0" text="Отчество" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="firstName" layoutX="14.0" layoutY="37.0" />
+                  <TextField fx:id="firstName" layoutX="13.0" layoutY="86.0" />
                   <TextField fx:id="secondName" layoutX="15.0" layoutY="134.0" />
                   <Button fx:id="addLineButton" layoutX="1.0" layoutY="283.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="168.0" text="Добавить" />
                   <Button fx:id="changeLineButton" disable="true" layoutX="1.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="168.0" text="Изменить" />
                   <Button fx:id="deleteLineButton" disable="true" layoutX="1.0" layoutY="345.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="168.0" text="Удалить" />
-                  <Label layoutX="75.0" layoutY="20.0" text="Имя" />
-                  <Label layoutX="60.0" layoutY="69.0" text="Фамилия" />
+                  <Label layoutX="73.0" layoutY="69.0" text="Имя" />
+                  <Label layoutX="60.0" layoutY="20.0" text="Фамилия" />
                   <Label layoutX="60.0" layoutY="117.0" text="Отчество" />
                </children></AnchorPane>
       </content>

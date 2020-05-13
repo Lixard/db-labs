@@ -1,6 +1,7 @@
 package ru.student.ui.controller;
 
-import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -64,11 +65,38 @@ public class StartPageController {
         changeLineButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
         deleteLineButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
 
+        table.getSelectionModel().selectedItemProperty().addListener((observableValue, doctorDto, t1) -> {
+            DoctorDto doctor = table.getSelectionModel().getSelectedItem();
+            if (doctor != null) {
+                firstName.setText(doctor.getFirstName());
+                lastName.setText(doctor.getLastName());
+                secondName.setText(doctor.getSecondName());
+            } else {
+                firstName.setText("");
+                lastName.setText("");
+                secondName.setText("");
+            }
+        });
+
         addLineButton.setOnAction(actionEvent -> {
             doctorsService.insert(new DoctorDto(firstName.getText(), lastName.getText(), secondName.getText()));
             firstName.clear();
             secondName.clear();
             lastName.clear();
+            update();
+        });
+
+        changeLineButton.setOnAction(actionEvent -> {
+            DoctorDto doctorDto = table.getSelectionModel().getSelectedItem();
+            doctorDto.setFirstName(firstName.getText());
+            doctorDto.setLastName(lastName.getText());
+            doctorDto.setSecondName(secondName.getText());
+            doctorsService.update(doctorDto);
+            update();
+        });
+
+        deleteLineButton.setOnAction(actionEvent -> {
+            doctorsService.delete(table.getSelectionModel().getSelectedItem().getId());
             update();
         });
     }
