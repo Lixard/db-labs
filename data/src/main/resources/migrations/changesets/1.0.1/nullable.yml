@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Maksim Borisov
+      comment: make user_id nullable
+      changes:
+        - sqlFile:
+            path: script.sql
+            relativeToChangelogFile: true
