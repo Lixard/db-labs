@@ -31,7 +31,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="exportToExcelButton" layoutX="7.0" layoutY="29.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="101.0" text="Экспорт Excel" />
+                  <Button fx:id="exportToExcelButton" layoutX="7.0" layoutY="29.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="101.0" text="Экспорт в Excel" />
                   <TableView fx:id="appointmentTable" layoutX="116.0" prefHeight="371.0" prefWidth="484.0">
                     <columns>
                       <TableColumn fx:id="patientLastName" prefWidth="119.0" text="Фамилия пациента" />

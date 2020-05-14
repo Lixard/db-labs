@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.student.services.dto.AppointmentDto;
 import ru.student.services.dto.DoctorDto;
+import ru.student.services.service.AppointmentsService;
 import ru.student.services.service.DoctorsService;
 
 import java.sql.Timestamp;
@@ -21,6 +22,7 @@ import java.sql.Timestamp;
 public class StartPageController {
 
     private final DoctorsService doctorsService;
+    private final AppointmentsService appointmentsService;
 
     @FXML
     private TextField lastName;
@@ -71,16 +73,23 @@ public class StartPageController {
     private TableColumn<AppointmentDto, Timestamp> appointmentDate;
 
     @Autowired
-    public StartPageController(DoctorsService doctorsService) {
+    public StartPageController(DoctorsService doctorsService,
+                               AppointmentsService appointmentsService) {
         this.doctorsService = doctorsService;
+        this.appointmentsService = appointmentsService;
     }
 
     public void initialize() {
+        tab1Init();
+        tab2Init();
+    }
+
+    private void tab1Init() {
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         secondNameColumn.setCellValueFactory(new PropertyValueFactory<>("secondName"));
         lastNameColumn.setSortType(TableColumn.SortType.DESCENDING);
-        update();
+        updateDoctorTable();
         changeLineButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
         deleteLineButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
 
@@ -102,7 +111,7 @@ public class StartPageController {
             firstName.clear();
             secondName.clear();
             lastName.clear();
-            update();
+            updateDoctorTable();
         });
 
         changeLineButton.setOnAction(actionEvent -> {
@@ -111,17 +120,30 @@ public class StartPageController {
             doctorDto.setLastName(lastName.getText());
             doctorDto.setSecondName(secondName.getText());
             doctorsService.update(doctorDto);
-            update();
+            updateDoctorTable();
         });
 
         deleteLineButton.setOnAction(actionEvent -> {
             doctorsService.delete(table.getSelectionModel().getSelectedItem().getId());
-            update();
+            updateDoctorTable();
         });
     }
 
-    public void update() {
+    private void tab2Init() {
+        patientLastName.setCellValueFactory(new PropertyValueFactory<>("patientLastName"));
+        doctorLastName.setCellValueFactory(new PropertyValueFactory<>("doctorLastName"));
+        appointmentPlace.setCellValueFactory(new PropertyValueFactory<>("appointmentPlace"));
+        appointmentDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+        updateAppointmentTable();
+    }
+
+    private void updateDoctorTable() {
         ObservableList<DoctorDto> list = FXCollections.observableList(doctorsService.getDoctors());
         table.setItems(list);
+    }
+
+    private void updateAppointmentTable() {
+        ObservableList<AppointmentDto> list = FXCollections.observableList(appointmentsService.getAppointments());
+        appointmentTable.setItems(list);
     }
 }

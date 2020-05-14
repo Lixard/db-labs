@@ -19,14 +19,7 @@ public interface AppointmentsMapper {
             "FROM appointments a " +
             "JOIN patients p on a.patient_id = p.patient_id " +
             "JOIN doctors d on a.doctor_id = d.doctor_id " +
-            "GROUP BY p.last_name"
+            "GROUP BY a.appointment_id, p.last_name, d.last_name, a.place, a.appointment_date"
     )
-//    @Results({
-//            @Result(column = "id", property = "appointmentId"),
-//            @Result(column = "", property = "patientLastName"),
-//            @Result(column = "d.last_name", property = ""),
-//            @Result(column = "", property = ""),
-//            @Result(column = "", property = "")
-//    })
     List<Appointment> getAppointments();
 }
