@@ -31,7 +31,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="exportToExcelButton" layoutX="7.0" layoutY="29.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="101.0" text="Экспорт в Excel" />
+                  <Button fx:id="exportToExcelButton" layoutX="5.0" layoutY="26.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="107.0" text="Экспорт в Excel" />
                   <TableView fx:id="appointmentTable" layoutX="116.0" prefHeight="371.0" prefWidth="484.0">
                     <columns>
                       <TableColumn fx:id="patientLastName" prefWidth="119.0" text="Фамилия пациента" />
@@ -40,6 +40,10 @@
                         <TableColumn fx:id="appointmentDate" prefWidth="143.0" text="Дата приема" />
                     </columns>
                   </TableView>
+                  <Button fx:id="exportToWordButton" layoutX="5.0" layoutY="76.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="107.0" text="Экспорт в Word" />
+                  <DatePicker fx:id="datePicker" layoutX="9.0" layoutY="227.0" prefHeight="25.0" prefWidth="102.0" />
+                  <Button fx:id="classicReportButton" layoutX="7.0" layoutY="262.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Обычный отчет" />
+                  <Button fx:id="dateReportButton" layoutX="7.0" layoutY="295.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="103.0" text="Отчет за определенную дату" textAlignment="CENTER" wrapText="true" />
                </children>
             </AnchorPane>
         </content>

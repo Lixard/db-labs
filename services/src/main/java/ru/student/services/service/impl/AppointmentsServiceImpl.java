@@ -7,6 +7,7 @@ import ru.student.services.dto.AppointmentDto;
 import ru.student.services.mapstruct.AppointmentStruct;
 import ru.student.services.service.AppointmentsService;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -26,5 +27,10 @@ public class AppointmentsServiceImpl implements AppointmentsService {
     @Override
     public List<AppointmentDto> getAppointments() {
         return appointmentStruct.toDto(appointmentsMapper.getAppointments());
+    }
+
+    @Override
+    public List<AppointmentDto> getAppointmentsWithDate(Date date) {
+        return appointmentStruct.toDto(appointmentsMapper.getAppointmentsWithDate(date));
     }
 }

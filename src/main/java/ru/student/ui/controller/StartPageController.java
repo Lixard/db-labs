@@ -13,6 +13,7 @@ import ru.student.services.service.AppointmentsService;
 import ru.student.services.service.DoctorsService;
 import ru.student.services.service.ExportToExcelService;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 
@@ -55,6 +56,18 @@ public class StartPageController {
 
     @FXML
     private Button exportToExcelButton;
+
+    @FXML
+    private Button exportToWordButton;
+
+    @FXML
+    private Button classicReportButton;
+
+    @FXML
+    private Button dateReportButton;
+
+    @FXML
+    private DatePicker datePicker;
 
     @FXML
     private TableView<AppointmentDto> appointmentTable;
@@ -139,14 +152,24 @@ public class StartPageController {
 
         exportToExcelButton.setOnAction(actionEvent -> {
             Alert alert;
-            String export = exportToExcelService.toExcel();
-            if (export == null) {
+            String exportFilePath = exportToExcelService.toExcel();
+            if (exportFilePath == null) {
                 alert = dialogMessage(Alert.AlertType.ERROR, "Error!", "Export failed!", "Something went wrong.");
             } else {
-                alert = dialogMessage(Alert.AlertType.INFORMATION, "Success", "Export successful", "file path is: " + export);
+                alert = dialogMessage(Alert.AlertType.INFORMATION, "Success", "Export successful", "file path is: " + exportFilePath);
             }
             alert.showAndWait();
         });
+
+        dateReportButton.disableProperty().bind(datePicker.valueProperty().isNull());
+
+        exportToWordButton.setOnAction(actionEvent -> {
+
+        });
+
+        classicReportButton.setOnAction(actionEvent -> updateAppointmentTable());
+
+        dateReportButton.setOnAction(actionEvent -> updateAppointmentWithDateTable(Date.valueOf(datePicker.getValue())));
     }
 
     private Alert dialogMessage(Alert.AlertType alertType, String title, String header, String content) {
@@ -164,6 +187,11 @@ public class StartPageController {
 
     private void updateAppointmentTable() {
         ObservableList<AppointmentDto> list = FXCollections.observableList(appointmentsService.getAppointments());
+        appointmentTable.setItems(list);
+    }
+
+    private void updateAppointmentWithDateTable(Date date) {
+        ObservableList<AppointmentDto> list = FXCollections.observableList(appointmentsService.getAppointmentsWithDate(date));
         appointmentTable.setItems(list);
     }
 }
