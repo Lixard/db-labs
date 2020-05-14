@@ -1,7 +1,5 @@
 package ru.student.ui.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,8 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ru.student.services.dto.AppointmentDto;
 import ru.student.services.dto.DoctorDto;
 import ru.student.services.service.DoctorsService;
+
+import java.sql.Timestamp;
 
 
 @Controller
@@ -50,6 +51,24 @@ public class StartPageController {
 
     @FXML
     private Button deleteLineButton;
+
+    @FXML
+    private Button exportToExcelButton;
+
+    @FXML
+    private TableView<AppointmentDto> appointmentTable;
+
+    @FXML
+    private TableColumn<AppointmentDto, String> patientLastName;
+
+    @FXML
+    private TableColumn<AppointmentDto, String> doctorLastName;
+
+    @FXML
+    private TableColumn<AppointmentDto, String> appointmentPlace;
+
+    @FXML
+    private TableColumn<AppointmentDto, Timestamp> appointmentDate;
 
     @Autowired
     public StartPageController(DoctorsService doctorsService) {
@@ -105,6 +124,4 @@ public class StartPageController {
         ObservableList<DoctorDto> list = FXCollections.observableList(doctorsService.getDoctors());
         table.setItems(list);
     }
-
-
 }
