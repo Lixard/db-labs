@@ -3,10 +3,7 @@ package ru.student.ui.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +11,7 @@ import ru.student.services.dto.AppointmentDto;
 import ru.student.services.dto.DoctorDto;
 import ru.student.services.service.AppointmentsService;
 import ru.student.services.service.DoctorsService;
+import ru.student.services.service.ExportToExcelService;
 
 import java.sql.Timestamp;
 
@@ -23,6 +21,7 @@ public class StartPageController {
 
     private final DoctorsService doctorsService;
     private final AppointmentsService appointmentsService;
+    private final ExportToExcelService exportToExcelService;
 
     @FXML
     private TextField lastName;
@@ -74,9 +73,11 @@ public class StartPageController {
 
     @Autowired
     public StartPageController(DoctorsService doctorsService,
-                               AppointmentsService appointmentsService) {
+                               AppointmentsService appointmentsService,
+                               ExportToExcelService exportToExcelService) {
         this.doctorsService = doctorsService;
         this.appointmentsService = appointmentsService;
+        this.exportToExcelService = exportToExcelService;
     }
 
     public void initialize() {
@@ -135,6 +136,25 @@ public class StartPageController {
         appointmentPlace.setCellValueFactory(new PropertyValueFactory<>("appointmentPlace"));
         appointmentDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
         updateAppointmentTable();
+
+        exportToExcelButton.setOnAction(actionEvent -> {
+            Alert alert;
+            String export = exportToExcelService.toExcel();
+            if (export == null) {
+                alert = dialogMessage(Alert.AlertType.ERROR, "Error!", "Export failed!", "Something went wrong.");
+            } else {
+                alert = dialogMessage(Alert.AlertType.INFORMATION, "Success", "Export successful", "file path is: " + export);
+            }
+            alert.showAndWait();
+        });
+    }
+
+    private Alert dialogMessage(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        return alert;
     }
 
     private void updateDoctorTable() {
