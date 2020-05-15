@@ -12,6 +12,7 @@ import ru.student.services.dto.DoctorDto;
 import ru.student.services.service.AppointmentsService;
 import ru.student.services.service.DoctorsService;
 import ru.student.services.service.ExportToExcelService;
+import ru.student.services.service.ExportToWordService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -23,6 +24,7 @@ public class StartPageController {
     private final DoctorsService doctorsService;
     private final AppointmentsService appointmentsService;
     private final ExportToExcelService exportToExcelService;
+    private final ExportToWordService exportToWordService;
 
     @FXML
     private TextField lastName;
@@ -87,10 +89,12 @@ public class StartPageController {
     @Autowired
     public StartPageController(DoctorsService doctorsService,
                                AppointmentsService appointmentsService,
-                               ExportToExcelService exportToExcelService) {
+                               ExportToExcelService exportToExcelService,
+                               ExportToWordService exportToWordService) {
         this.doctorsService = doctorsService;
         this.appointmentsService = appointmentsService;
         this.exportToExcelService = exportToExcelService;
+        this.exportToWordService = exportToWordService;
     }
 
     public void initialize() {
@@ -150,26 +154,26 @@ public class StartPageController {
         appointmentDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
         updateAppointmentTable();
 
-        exportToExcelButton.setOnAction(actionEvent -> {
-            Alert alert;
-            String exportFilePath = exportToExcelService.toExcel();
-            if (exportFilePath == null) {
-                alert = dialogMessage(Alert.AlertType.ERROR, "Error!", "Export failed!", "Something went wrong.");
-            } else {
-                alert = dialogMessage(Alert.AlertType.INFORMATION, "Success", "Export successful", "file path is: " + exportFilePath);
-            }
-            alert.showAndWait();
-        });
+        exportToExcelButton.setOnAction(actionEvent -> export(exportToExcelService.toExcel()));
 
         dateReportButton.disableProperty().bind(datePicker.valueProperty().isNull());
 
-        exportToWordButton.setOnAction(actionEvent -> {
-
-        });
+        //TODO косяк -> экспорт данных может быть и без даты -> падает NPE
+        exportToWordButton.setOnAction(actionEvent -> export(exportToWordService.toWord(Date.valueOf(datePicker.getValue()))));
 
         classicReportButton.setOnAction(actionEvent -> updateAppointmentTable());
 
         dateReportButton.setOnAction(actionEvent -> updateAppointmentWithDateTable(Date.valueOf(datePicker.getValue())));
+    }
+
+    private void export(String exportFilePath) {
+        Alert alert;
+        if (exportFilePath == null) {
+            alert = dialogMessage(Alert.AlertType.ERROR, "Error!", "Export failed!", "Something went wrong.");
+        } else {
+            alert = dialogMessage(Alert.AlertType.INFORMATION, "Success", "Export successful", "file path is: " + exportFilePath);
+        }
+        alert.showAndWait();
     }
 
     private Alert dialogMessage(Alert.AlertType alertType, String title, String header, String content) {
