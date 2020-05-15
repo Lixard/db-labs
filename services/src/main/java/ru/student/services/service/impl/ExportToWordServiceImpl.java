@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.util.List;
 
 @Service
-public class ExportToWordServiceImpl implements ExportToWordService  {
+public class ExportToWordServiceImpl implements ExportToWordService {
 
     private final XWPFDocument document;
     private final AppointmentsService service;
@@ -31,6 +31,14 @@ public class ExportToWordServiceImpl implements ExportToWordService  {
         XWPFTable table = document.createTable();
         fillColumnNames(table);
         fillData(table, service.getAppointmentsWithDate(date));
+        return saveToFile(new File(new File(System.getProperty("user.dir")), "exported.docx"));
+    }
+
+    @Override
+    public String toWord() {
+        XWPFTable table = document.createTable();
+        fillColumnNames(table);
+        fillData(table, service.getAppointments());
         return saveToFile(new File(new File(System.getProperty("user.dir")), "exported.docx"));
     }
 
@@ -67,6 +75,4 @@ public class ExportToWordServiceImpl implements ExportToWordService  {
             return null;
         }
     }
-
-
 }

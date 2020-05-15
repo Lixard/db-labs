@@ -16,6 +16,7 @@ import ru.student.services.service.ExportToWordService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 
 @Controller
@@ -158,10 +159,14 @@ public class StartPageController {
 
         dateReportButton.disableProperty().bind(datePicker.valueProperty().isNull());
 
-        //TODO косяк -> экспорт данных может быть и без даты -> падает NPE
-        exportToWordButton.setOnAction(actionEvent -> export(exportToWordService.toWord(Date.valueOf(datePicker.getValue()))));
+        exportToWordButton.setOnAction(actionEvent -> Optional.ofNullable(datePicker.getValue())
+                .ifPresentOrElse((value) -> export(exportToWordService.toWord(Date.valueOf(value))),
+                        () -> export(exportToWordService.toWord())));
 
-        classicReportButton.setOnAction(actionEvent -> updateAppointmentTable());
+        classicReportButton.setOnAction(actionEvent -> {
+            datePicker.setValue(null);
+            updateAppointmentTable();
+        });
 
         dateReportButton.setOnAction(actionEvent -> updateAppointmentWithDateTable(Date.valueOf(datePicker.getValue())));
     }
